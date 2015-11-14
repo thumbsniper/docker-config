@@ -1,0 +1,86 @@
+redis:
+    image: redis:latest
+    volumes:
+    - /data/thumbsniper/redis:/data
+    command: "redis-server --appendonly yes"
+
+mongo:
+    image: mongo:latest
+    volumes:
+    - /data/thumbsniper/mongo:/data/db
+    command: "--smallfiles"
+
+mongo-seed:
+    image: mongo:latest
+    volumes:
+    - /data/thumbsniper/mongo:/data/db
+    environment:
+    - MONGODBNAME=thumbsniper
+    - MONGOUSER=thumbsniper
+    - MONGOPASS=secret
+    links:
+    - mongo:thumbsniper-mongo.docker
+
+php-fpm:
+    image: thumbsniper/php-fpm:latest
+    volumes:
+    - /opt/thumbsniper
+    - /data/thumbsniper/thumbnails:/opt/thumbsniper/web_images/thumbnails
+    links:
+    - mongo:thumbsniper-mongo.docker
+    - redis:thumbsniper-redis.docker
+
+nginx-api:
+    image: thumbsniper/nginx-api:latest
+    volumes_from:
+    - php-fpm
+    links:
+    - php-fpm:thumbsniper-php-fpm.docker
+
+nginx-images:
+    image: thumbsniper/nginx-images:latest
+    volumes_from:
+    - php-fpm
+    links:
+    - php-fpm:thumbsniper-php-fpm.docker
+
+nginx-panel:
+    image: thumbsniper/nginx-panel:latest
+    volumes_from:
+    - php-fpm
+    links:
+    - php-fpm:thumbsniper-php-fpm.docker
+
+proxy:
+    image: thumbsniper/proxy:latest
+    links:
+    - nginx-api:thumbsniper-nginx-api.docker
+    - nginx-images:thumbsniper-nginx-images.docker
+    - nginx-panel:thumbsniper-nginx-panel.docker
+    ports:
+    - "80:80"
+
+agent-normal:
+    image: thumbsniper/agent:latest
+    links:
+    - proxy:api.example.com
+    - proxy:img.example.com
+    environment:
+    - TAGENT_QUEUE=normal
+
+agent-longrun:
+    image: thumbsniper/agent:latest
+    links:
+    - proxy:api.example.com
+    - proxy:img.example.com
+    environment:
+    - TAGENT_QUEUE=longrun
+
+agent-image:
+    image: thumbsniper/agent:latest
+    links:
+    - proxy:api.example.com
+    - proxy:img.example.com
+    environment:
+    - TAGENT_QUEUE=image
+
