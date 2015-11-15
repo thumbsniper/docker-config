@@ -11,7 +11,7 @@ mongo:
     command: "--smallfiles"
 
 mongo-seed:
-    image: mongo:latest
+    image: thumbsniper/mongo-seed:latest
     environment:
     - MONGODBNAME=thumbsniper
     - MONGOUSER=thumbsniper
