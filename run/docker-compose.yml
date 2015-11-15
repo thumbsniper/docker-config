@@ -12,8 +12,6 @@ mongo:
 
 mongo-seed:
     image: mongo:latest
-    volumes:
-    - /data/thumbsniper/mongo:/data/db
     environment:
     - MONGODBNAME=thumbsniper
     - MONGOUSER=thumbsniper
