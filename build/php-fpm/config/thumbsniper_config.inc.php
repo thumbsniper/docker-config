@@ -36,13 +36,15 @@ Settings::setRedisHost("thumbsniper-redis.docker");
 Settings::setRedisDb(0);
 
 // Google Auth
-Settings::setGoogleAuthUrl('https://panel.' . Settings::getDomain() . '/pages/googleAuth.php');
+Settings::setGoogleAuthEnabled(false);
+Settings::setGoogleAuthUrl('http://panel.' . Settings::getDomain() . '/pages/googleAuth.php');
 Settings::setGoogleClientId('XXX.apps.googleusercontent.com');
 Settings::setGoogleClientSecret('secret');
 
 // Twitter Auth
-Settings::setTwitterAuthRedirectUrl('https://panel.' . Settings::getDomain() . '/pages/twitterAuthRedirect.php');
-Settings::setTwitterAuthCallbackUrl('https://panel.' . Settings::getDomain() . '/pages/twitterAuthCallback.php');
+Settings::setTwitterAuthEnabled(false);
+Settings::setTwitterAuthRedirectUrl('http://panel.' . Settings::getDomain() . '/pages/twitterAuthRedirect.php');
+Settings::setTwitterAuthCallbackUrl('http://panel.' . Settings::getDomain() . '/pages/twitterAuthCallback.php');
 Settings::setTwitterConsumerKey('changeme');
 Settings::setTwitterConsumerSecret('secret');
 Settings::setTwitterAccessToken('changeme');
@@ -65,11 +67,11 @@ Settings::setLogMethodThumbSniperObjectiveReferrerModel(true);
 Settings::setLogMethodThumbSniperObjectiveTargetModel(true);
 
 // Web
-Settings::setWebUrl('https://www.' . Settings::getDomain());
+Settings::setWebUrl('http://www.' . Settings::getDomain());
 
 // Panel
 Settings::setPanelTitle('ThumbSniper');
-Settings::setPanelUrl('https://panel.' . Settings::getDomain());
+Settings::setPanelUrl('http://panel.' . Settings::getDomain());
 
 // Frontend
 Settings::setFrontendAdminEmail('my-admin-address@example.com');
