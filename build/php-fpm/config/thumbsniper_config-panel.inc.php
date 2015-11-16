@@ -25,6 +25,6 @@ define('SMARTY_CONFIG_DIR', WEB_PANEL_DIR . '/configs/');
 define('SMARTY_CACHE_DIR', WEB_PANEL_DIR . '/cache/');
 
 ThumbSniperClientSettings::setTimezone("Europe/Berlin");
-ThumbSniperClientSettings::setApiUrl("https://api.example.com");
-ThumbSniperClientSettings::setApiKey('secret');
+ThumbSniperClientSettings::setApiUrl("http://api.example.com");
+//ThumbSniperClientSettings::setApiKey('secret');
 
