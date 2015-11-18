@@ -44,7 +44,17 @@ RUN zypper --non-interactive ref && zypper --non-interactive in \
 	php5-zip \
 	php5-zlib \
 	wkhtmltopdf \
-	xorg-x11-server
+	xorg-x11-server \
+	dejavu-fonts \
+	efont-unicode-bitmap-fonts \
+	ghostscript-fonts-other \
+	ghostscript-fonts-std \
+	google-droid-fonts \
+	intlfonts \
+	intlfonts-euro-bitmap-fonts \
+	liberation-fonts \
+	patterns-openSUSE-fonts_opt \
+	xorg-x11-fonts
 
 RUN /usr/sbin/groupadd -g 999 tagent
 RUN /usr/sbin/useradd -u 999 -g 999 -c tagent -m -s /bin/bash tagent
