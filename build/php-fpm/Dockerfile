@@ -79,6 +79,8 @@ RUN npm install -g bower
 WORKDIR /opt/thumbsniper/web_panel
 RUN bower --allow-root --config.interactive=false update
 
+RUN chown 999:999 /opt/thumbsniper/web_panel/templates_c
+
 COPY config/thumbsniper_config.inc.php /opt/thumbsniper/config/config.inc.php
 COPY config/thumbsniper_config-panel.inc.php /opt/thumbsniper/config/config-panel.inc.php
 
