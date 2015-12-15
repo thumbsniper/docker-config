@@ -72,7 +72,7 @@ RUN cat /etc/php5/fpm/php-fpm.conf.default | \
 COPY config/php-fpm.conf.include /root/php-fpm.conf.include
 RUN cat /root/php-fpm.conf.include >> /etc/php5/fpm/php-fpm.conf
 
-RUN git clone https://github.com/thumbsniper/backend.git /opt/thumbsniper && cd /opt/thumbsniper && git checkout v0.8.2
+RUN git clone https://github.com/thumbsniper/backend.git /opt/thumbsniper && cd /opt/thumbsniper && git checkout v0.8.3
 RUN composer --working-dir=/opt/thumbsniper update
 
 RUN npm install -g bower
@@ -81,8 +81,7 @@ RUN bower --allow-root --config.interactive=false update
 
 RUN chown 999:999 /opt/thumbsniper/web_panel/templates_c
 
-COPY config/thumbsniper_config.inc.php /opt/thumbsniper/config/config.inc.php
-COPY config/thumbsniper_config-panel.inc.php /opt/thumbsniper/config/config-panel.inc.php
+COPY config/backend-config.inc.php /opt/thumbsniper/config/backend-config.inc.php
+COPY config/panel-config.inc.php /opt/thumbsniper/config/panel-config.inc.php
 
 RUN zypper --non-interactive ref && zypper --non-interactive up
-

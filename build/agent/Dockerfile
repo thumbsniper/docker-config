@@ -61,10 +61,10 @@ RUN /usr/sbin/useradd -u 999 -g 999 -c tagent -m -s /bin/bash tagent
 
 COPY etc/php5 /etc/php5
 
-RUN git clone https://github.com/thumbsniper/agent.git /opt/thumbsniper && cd /opt/thumbsniper && git checkout v0.8.2
+RUN git clone https://github.com/thumbsniper/agent.git /opt/thumbsniper && cd /opt/thumbsniper && git checkout v0.8.3
 RUN composer --working-dir=/opt/thumbsniper update
 
-COPY config/thumbsniper_config.inc.php /opt/thumbsniper/config/config.inc.php
+COPY config/agent-config.inc.php /opt/thumbsniper/config/agent-config.inc.php
 COPY start.sh /start.sh
 
 RUN zypper --non-interactive up
