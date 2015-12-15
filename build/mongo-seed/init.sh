@@ -5,13 +5,13 @@ if test -z "$MONGOUSER" || test -z "$MONGOPASS" || test -z "$MONGODBNAME"; then
 	exit 1
 fi
 
-until nc -z thumbsniper-mongo.docker 27017
+until nc -z mongo 27017
 do
 	echo "waiting for MongoDB"
 	sleep 1
 done
 
-mongo --host thumbsniper-mongo.docker --eval "
+mongo --host mongo --eval "
 	db = db.getSiblingDB(\"${MONGODBNAME}\");
 	db.createUser({
 		user: \"${MONGOUSER}\",

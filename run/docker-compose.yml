@@ -1,13 +1,13 @@
 redis:
     image: redis:latest
     volumes:
-    - /data/thumbsniper/redis:/data
+    - /data/docker/thumbsniper/redis:/data
     command: "redis-server --appendonly yes"
 
 mongo:
     image: mongo:latest
     volumes:
-    - /data/thumbsniper/mongo:/data/db
+    - /data/docker/thumbsniper/mongo:/data/db
     command: "--smallfiles"
 
 mongo-seed:
@@ -17,44 +17,44 @@ mongo-seed:
     - MONGOUSER=thumbsniper
     - MONGOPASS=secret
     links:
-    - mongo:thumbsniper-mongo.docker
+    - mongo
 
 php-fpm:
     image: thumbsniper/php-fpm:latest
     volumes:
     - /opt/thumbsniper
-    - /data/thumbsniper/thumbnails:/opt/thumbsniper/web_images/thumbnails
+    - /data/docker/thumbsniper/thumbnails:/opt/thumbsniper/web_images/thumbnails
     links:
-    - mongo:thumbsniper-mongo.docker
-    - redis:thumbsniper-redis.docker
+    - mongo
+    - redis
 
 nginx-api:
     image: thumbsniper/nginx-api:latest
     volumes_from:
     - php-fpm
     links:
-    - php-fpm:thumbsniper-php-fpm.docker
+    - php-fpm
 
 nginx-images:
     image: thumbsniper/nginx-images:latest
     volumes_from:
     - php-fpm
     links:
-    - php-fpm:thumbsniper-php-fpm.docker
+    - php-fpm
 
 nginx-panel:
     image: thumbsniper/nginx-panel:latest
     volumes_from:
     - php-fpm
     links:
-    - php-fpm:thumbsniper-php-fpm.docker
+    - php-fpm
 
 proxy:
     image: thumbsniper/proxy:latest
     links:
-    - nginx-api:thumbsniper-nginx-api.docker
-    - nginx-images:thumbsniper-nginx-images.docker
-    - nginx-panel:thumbsniper-nginx-panel.docker
+    - nginx-api
+    - nginx-images
+    - nginx-panel
     ports:
     - "80:80"
 
