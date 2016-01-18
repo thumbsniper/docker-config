@@ -42,12 +42,16 @@ REFLECTION_RIGHTTOLEFT_BIN='3Dreflection_rightToLeft'
 curl "${ROTATE_URL}" | sed -e 's/^dir=\"\.\"/dir=\"\/tmp\"/' > ${ROTATE_BIN}
 
 # download 3Dreflection (fade left to right)
-curl "${REFLECTION_URL}" | sed -e 's/^dir=\"\.\"/dir=\"\/tmp\"/' > ${REFLECTION_LEFTTORIGHT_BIN}
+curl "${REFLECTION_URL}" \
+	| sed -e 's/^dir=\"\.\"/dir=\"\/tmp\"/' \
+	| sed -e 's/^3Drotate/\$\{PROGDIR\}\/3Drotate/' \
+	> ${REFLECTION_LEFTTORIGHT_BIN}
 
 # duplicate and modify 3Dreflection (fade right to left)
 cat "${REFLECTION_LEFTTORIGHT_BIN}" \
 	| sed -e 's/^rotate=\([0-9]*\)\(.*#.*\)$/rotate=-\1\2/' \
 	| sed -e 's/^xoff=.*/xoff=\`convert xc: -format \"%\[fx:$ww\/2\]\" info:\`/' \
+	| sed -e 's/^3Drotate/\$\{PROGDIR\}\/3Drotate/' \
 	> ${REFLECTION_RIGHTTOLEFT_BIN}
 
 # make scripts executable
