@@ -15,6 +15,7 @@ services:
 
     web:
         image: thumbsniper/web:latest
+        volumes:
         - web_thumbnails:/opt/thumbsniper/web_images/thumbnails
         links:
         - mongo
