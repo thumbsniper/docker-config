@@ -1,84 +1,53 @@
-redis:
-    image: redis:latest
-    volumes:
-    - /data/docker/thumbsniper/redis:/data
-    command: "redis-server --appendonly yes"
+version: '2'
 
-mongo:
-    image: mongo:latest
-    volumes:
-    - /data/docker/thumbsniper/mongo:/data/db
-    command: "--smallfiles"
+services:
+    redis:
+        image: redis:latest
+        volumes:
+        - redis_data:/data
+        command: "redis-server --appendonly yes"
 
-mongo-seed:
-    image: thumbsniper/mongo-seed:latest
-    environment:
-    - MONGODBNAME=thumbsniper
-    - MONGOUSER=thumbsniper
-    - MONGOPASS=secret
-    links:
-    - mongo
+    mongo:
+        image: mongo:latest
+        volumes:
+        - mongo_data:/data/db
+        command: "--smallfiles"
 
-php-fpm:
-    image: thumbsniper/php-fpm:latest
-    volumes:
-    - /opt/thumbsniper
-    - /data/docker/thumbsniper/thumbnails:/opt/thumbsniper/web_images/thumbnails
-    links:
-    - mongo
-    - redis
+    web:
+        image: thumbsniper/web:latest
+        - web_thumbnails:/opt/thumbsniper/web_images/thumbnails
+        links:
+        - mongo
+        - redis
+        ports:
+        - "80:80"
 
-nginx-api:
-    image: thumbsniper/nginx-api:latest
-    volumes_from:
-    - php-fpm
-    links:
-    - php-fpm
+    agent-normal:
+        image: thumbsniper/agent:latest
+        links:
+        - web:api.example.com
+        - web:img.example.com
+        environment:
+        - TAGENT_QUEUE=normal
 
-nginx-images:
-    image: thumbsniper/nginx-images:latest
-    volumes_from:
-    - php-fpm
-    links:
-    - php-fpm
+    agent-longrun:
+        image: thumbsniper/agent:latest
+        links:
+        - web:api.example.com
+        - web:img.example.com
+        environment:
+        - TAGENT_QUEUE=longrun
 
-nginx-panel:
-    image: thumbsniper/nginx-panel:latest
-    volumes_from:
-    - php-fpm
-    links:
-    - php-fpm
+    agent-image:
+        image: thumbsniper/agent:latest
+        links:
+        - web:api.example.com
+        - web:img.example.com
+        environment:
+        - TAGENT_QUEUE=image
 
-proxy:
-    image: thumbsniper/proxy:latest
-    links:
-    - nginx-api
-    - nginx-images
-    - nginx-panel
-    ports:
-    - "80:80"
-
-agent-normal:
-    image: thumbsniper/agent:latest
-    links:
-    - proxy:api.example.com
-    - proxy:img.example.com
-    environment:
-    - TAGENT_QUEUE=normal
-
-agent-longrun:
-    image: thumbsniper/agent:latest
-    links:
-    - proxy:api.example.com
-    - proxy:img.example.com
-    environment:
-    - TAGENT_QUEUE=longrun
-
-agent-image:
-    image: thumbsniper/agent:latest
-    links:
-    - proxy:api.example.com
-    - proxy:img.example.com
-    environment:
-    - TAGENT_QUEUE=image
+volumes:
+    redis_data:
+    mongo_data:
+    web_thumbnails:
 
