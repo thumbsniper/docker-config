@@ -22,28 +22,30 @@ services:
         - redis
         ports:
         - "80:80"
+        networks:
+            default:
+                aliases:
+                    - api.example.com
+                    - img.example.com
 
     agent-normal:
         image: thumbsniper/agent:latest
         links:
-        - web:api.example.com
-        - web:img.example.com
+        - web
         environment:
         - TAGENT_QUEUE=normal
 
     agent-longrun:
         image: thumbsniper/agent:latest
         links:
-        - web:api.example.com
-        - web:img.example.com
+        - web
         environment:
         - TAGENT_QUEUE=longrun
 
     agent-image:
         image: thumbsniper/agent:latest
         links:
-        - web:api.example.com
-        - web:img.example.com
+        - web
         environment:
         - TAGENT_QUEUE=image
 
@@ -51,4 +53,3 @@ volumes:
     redis_data:
     mongo_data:
     web_thumbnails:
-
