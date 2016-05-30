@@ -19,6 +19,8 @@ services:
         - web_thumbnails:/opt/thumbsniper/web_images/thumbnails
 #        - /data/docker/thumbsniper/config/backend-config.inc.php:/opt/thumbsniper/config/backend-config.inc.php
 #        - /data/docker/thumbsniper/config/panel-config.inc.php:/opt/thumbsniper/config/panel-config.inc.php
+
+
         links:
         - mongo
         - redis
@@ -29,33 +31,6 @@ services:
                 aliases:
                     - api.example.com
                     - img.example.com
-
-    agent-normal:
-        image: thumbsniper/agent:latest
-#        volumes:
-#        - /data/docker/thumbsniper/config/agent-config.inc.php:/opt/thumbsniper/config/agent-config.inc.php
-        links:
-        - web
-        environment:
-        - TAGENT_QUEUE=normal
-
-    agent-longrun:
-        image: thumbsniper/agent:latest
-#        volumes:
-#        - /data/docker/thumbsniper/config/agent-config.inc.php:/opt/thumbsniper/config/agent-config.inc.php
-        links:
-        - web
-        environment:
-        - TAGENT_QUEUE=longrun
-
-    agent-image:
-        image: thumbsniper/agent:latest
-#        volumes:
-#        - /data/docker/thumbsniper/config/agent-config.inc.php:/opt/thumbsniper/config/agent-config.inc.php
-        links:
-        - web
-        environment:
-        - TAGENT_QUEUE=image
 
 volumes:
     redis_data:

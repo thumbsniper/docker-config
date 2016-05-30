@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+    agent-normal:
+        image: thumbsniper/agent:latest
+#        volumes:
+#        - /data/docker/thumbsniper/config/agent-config.inc.php:/opt/thumbsniper/config/agent-config.inc.php
+        environment:
+        - TAGENT_QUEUE=normal
+
+    agent-longrun:
+        image: thumbsniper/agent:latest
+#        volumes:
+#        - /data/docker/thumbsniper/config/agent-config.inc.php:/opt/thumbsniper/config/agent-config.inc.php
+        environment:
+        - TAGENT_QUEUE=longrun
+
+    agent-image:
+        image: thumbsniper/agent:latest
+#        volumes:
+#        - /data/docker/thumbsniper/config/agent-config.inc.php:/opt/thumbsniper/config/agent-config.inc.php
+        environment:
+        - TAGENT_QUEUE=image
+
