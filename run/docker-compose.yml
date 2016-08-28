@@ -3,9 +3,6 @@ version: '2'
 services:
     redis:
         image: redis:latest
-        volumes:
-        - redis_data:/data
-        command: "redis-server --appendonly yes"
 
     mongo:
         image: mongo:latest
@@ -58,6 +55,5 @@ services:
         - TAGENT_QUEUE=image
 
 volumes:
-    redis_data:
     mongo_data:
     web_thumbnails:
