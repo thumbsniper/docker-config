@@ -5,7 +5,7 @@ services:
         image: redis:latest
 
     mongo:
-        image: mongo:latest
+        image: mongo:3.4-jessie
         volumes:
         - mongo_data:/data/db
         command: "--smallfiles"
